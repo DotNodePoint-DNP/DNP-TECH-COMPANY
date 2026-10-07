@@ -62,6 +62,17 @@ type Product = {
   createdAt: string;
 };
 
+type Partnership = {
+  _id: string;
+  name: string;
+  email: string;
+  company?: string;
+  partnershipType: string;
+  subject: string;
+  status: "New" | "Contacted" | "In Progress" | "Completed" | "Rejected";
+  createdAt: string;
+};
+
 export default function AdminDashboard() {
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [loading, setLoading] = useState(true);
@@ -76,6 +87,8 @@ export default function AdminDashboard() {
   const [meetingsLoading, setMeetingsLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [productsLoading, setProductsLoading] = useState(true);
+  const [partnerships, setPartnerships] = useState<Partnership[]>([]);
+  const [partnershipsLoading, setPartnershipsLoading] = useState(true);
 
   useEffect(() => {
     fetchAdmins();
@@ -84,6 +97,7 @@ export default function AdminDashboard() {
     fetchApplications();
     fetchMeetings();
     fetchProducts();
+    fetchPartnerships();
   }, []);
 
   const fetchAdmins = async () => {
@@ -250,6 +264,32 @@ export default function AdminDashboard() {
       console.error("Failed to fetch products:", error);
     } finally {
       setProductsLoading(false);
+    }
+  };
+
+  const fetchPartnerships = async () => {
+    try {
+      setPartnershipsLoading(true);
+
+      const response = await fetch("/api/admin/stats", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (response.status === 401) {
+        window.location.href = "/admin/login";
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setPartnerships(data.recentPartnerships || []);
+      }
+    } catch (error) {
+      console.error("Failed to fetch partnerships:", error);
+    } finally {
+      setPartnershipsLoading(false);
     }
   };
 
@@ -902,6 +942,102 @@ export default function AdminDashboard() {
 
                         <td className="whitespace-nowrap py-4 text-sm text-gray-600">
                           {new Date(product.createdAt).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Recent Partnerships */}
+          <div className="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-gray-800">
+                  Recent Partnerships
+                </h2>
+
+                <p className="mt-1 text-sm text-gray-500">
+                  Latest partnership inquiries from visitors
+                </p>
+              </div>
+
+              <a
+                href="/admin/partnership"
+                className="text-sm font-semibold text-blue-600 hover:text-blue-800"
+              >
+                View All →
+              </a>
+            </div>
+
+            {partnershipsLoading ? (
+              <p className="text-sm text-gray-500">Loading partnerships...</p>
+            ) : partnerships.length === 0 ? (
+              <p className="text-sm text-gray-500">No partnerships found.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="border-b border-gray-200 text-sm text-gray-500">
+                      <th className="py-3 pr-4">Name</th>
+                      <th className="py-3 pr-4">Company</th>
+                      <th className="py-3 pr-4">Partnership Type</th>
+                      <th className="py-3 pr-4">Subject</th>
+                      <th className="py-3 pr-4">Status</th>
+                      <th className="py-3">Date</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {partnerships.map((partnership) => (
+                      <tr
+                        key={partnership._id}
+                        className="border-b border-gray-100 hover:bg-gray-50"
+                      >
+                        <td className="py-4 pr-4">
+                          <p className="font-medium text-gray-800">
+                            {partnership.name}
+                          </p>
+
+                          <p className="mt-1 text-sm text-gray-500">
+                            {partnership.email}
+                          </p>
+                        </td>
+
+                        <td className="py-4 pr-4 text-sm text-gray-700">
+                          {partnership.company || "N/A"}
+                        </td>
+
+                        <td className="py-4 pr-4 text-sm text-gray-700">
+                          {partnership.partnershipType}
+                        </td>
+
+                        <td className="py-4 pr-4 text-sm text-gray-700">
+                          {partnership.subject}
+                        </td>
+
+                        <td className="py-4 pr-4">
+                          <span
+                            className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                              partnership.status === "New"
+                                ? "bg-blue-100 text-blue-700"
+                                : partnership.status === "Contacted"
+                                  ? "bg-yellow-100 text-yellow-700"
+                                  : partnership.status === "In Progress"
+                                    ? "bg-purple-100 text-purple-700"
+                                    : partnership.status === "Completed"
+                                      ? "bg-green-100 text-green-700"
+                                      : "bg-red-100 text-red-700"
+                            }`}
+                          >
+                            {partnership.status}
+                          </span>
+                        </td>
+
+                        <td className="whitespace-nowrap py-4 text-sm text-gray-600">
+                          {new Date(partnership.createdAt).toLocaleDateString()}
                         </td>
                       </tr>
                     ))}

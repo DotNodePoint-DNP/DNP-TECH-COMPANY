@@ -30,6 +30,11 @@ export default function PartnershipAdminPage() {
   const [error, setError] = useState("");
   const [selectedPartnership, setSelectedPartnership] =
     useState<Partnership | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const partnershipsPerPage = 10;
 
   const fetchPartnerships = async () => {
     try {
@@ -52,9 +57,7 @@ export default function PartnershipAdminPage() {
       console.error("Fetch partnerships error:", error);
 
       setError(
-        error instanceof Error
-          ? error.message
-          : "Failed to fetch partnerships",
+        error instanceof Error ? error.message : "Failed to fetch partnerships",
       );
     } finally {
       setLoading(false);
@@ -65,10 +68,11 @@ export default function PartnershipAdminPage() {
     fetchPartnerships();
   }, []);
 
-  const updateStatus = async (
-    id: string,
-    status: Partnership["status"],
-  ) => {
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, statusFilter]);
+
+  const updateStatus = async (id: string, status: Partnership["status"]) => {
     try {
       setUpdatingId(id);
       setError("");
@@ -147,6 +151,34 @@ export default function PartnershipAdminPage() {
     }
   };
 
+  // Search + Status Filter
+  const filteredPartnerships = partnerships.filter((partnership) => {
+    const search = searchTerm.toLowerCase();
+
+    const matchesSearch =
+      partnership.name.toLowerCase().includes(search) ||
+      partnership.email.toLowerCase().includes(search) ||
+      partnership.company?.toLowerCase().includes(search) ||
+      partnership.subject?.toLowerCase().includes(search);
+
+    const matchesStatus =
+      statusFilter === "All" || partnership.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  // Pagination
+  const totalPages = Math.ceil(
+    filteredPartnerships.length / partnershipsPerPage,
+  );
+
+  const startIndex = (currentPage - 1) * partnershipsPerPage;
+
+  const paginatedPartnerships = filteredPartnerships.slice(
+    startIndex,
+    startIndex + partnershipsPerPage,
+  );
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -188,9 +220,7 @@ export default function PartnershipAdminPage() {
             <p className="text-sm text-gray-500">New</p>
 
             <p className="mt-2 text-3xl font-bold text-blue-600">
-              {partnerships.filter(
-                (item) => item.status === "New",
-              ).length}
+              {partnerships.filter((item) => item.status === "New").length}
             </p>
           </div>
 
@@ -198,9 +228,10 @@ export default function PartnershipAdminPage() {
             <p className="text-sm text-gray-500">In Progress</p>
 
             <p className="mt-2 text-3xl font-bold text-purple-600">
-              {partnerships.filter(
-                (item) => item.status === "In Progress",
-              ).length}
+              {
+                partnerships.filter((item) => item.status === "In Progress")
+                  .length
+              }
             </p>
           </div>
 
@@ -208,9 +239,10 @@ export default function PartnershipAdminPage() {
             <p className="text-sm text-gray-500">Completed</p>
 
             <p className="mt-2 text-3xl font-bold text-green-600">
-              {partnerships.filter(
-                (item) => item.status === "Completed",
-              ).length}
+              {
+                partnerships.filter((item) => item.status === "Completed")
+                  .length
+              }
             </p>
           </div>
         </div>
@@ -232,9 +264,7 @@ export default function PartnershipAdminPage() {
         {/* Loading */}
         {loading ? (
           <div className="rounded-xl border bg-white p-10 text-center shadow-sm">
-            <p className="text-gray-500">
-              Loading partnership inquiries...
-            </p>
+            <p className="text-gray-500">Loading partnership inquiries...</p>
           </div>
         ) : partnerships.length === 0 ? (
           <div className="rounded-xl border bg-white p-10 text-center shadow-sm">
@@ -243,13 +273,41 @@ export default function PartnershipAdminPage() {
             </h2>
 
             <p className="mt-2 text-sm text-gray-500">
-              Partnership requests submitted from the website will
-              appear here.
+              Partnership requests submitted from the website will appear here.
             </p>
           </div>
         ) : (
           <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
             <div className="overflow-x-auto">
+              {/* Search & Filter */}
+              <div className="mb-5 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                {/* Search */}
+                <div className="w-full md:max-w-md">
+                  <input
+                    type="text"
+                    placeholder="Search by name, email, company or subject..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-gray-600"
+                  />
+                </div>
+
+                {/* Status Filter */}
+                <div className="w-full md:w-52">
+                  <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-gray-600"
+                  >
+                    <option value="All">All Status</option>
+                    <option value="New">New</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </div>
+              </div>
               <table className="w-full min-w-[1200px] text-left">
                 <thead className="border-b bg-gray-50">
                   <tr>
@@ -288,7 +346,7 @@ export default function PartnershipAdminPage() {
                 </thead>
 
                 <tbody className="divide-y">
-                  {partnerships.map((partnership) => (
+                  {paginatedPartnerships.map((partnership) => (
                     <tr
                       key={partnership._id}
                       className="transition hover:bg-gray-50"
@@ -363,17 +421,13 @@ export default function PartnershipAdminPage() {
 
                       {/* Date */}
                       <td className="px-6 py-5 text-sm text-gray-500">
-                        {new Date(
-                          partnership.createdAt,
-                        ).toLocaleDateString()}
+                        {new Date(partnership.createdAt).toLocaleDateString()}
                       </td>
 
                       {/* Action */}
                       <td className="px-6 py-5">
                         <button
-                          onClick={() =>
-                            setSelectedPartnership(partnership)
-                          }
+                          onClick={() => setSelectedPartnership(partnership)}
                           className="rounded-lg border border-blue-200 px-3 py-2 text-xs font-semibold text-blue-600 transition hover:bg-blue-50"
                         >
                           View
@@ -383,6 +437,45 @@ export default function PartnershipAdminPage() {
                   ))}
                 </tbody>
               </table>
+              {/* Pagination */}
+              <div className="mt-5 flex flex-col items-center justify-between gap-4 sm:flex-row">
+                <p className="text-sm text-gray-600">
+                  {filteredPartnerships.length === 0
+                    ? "No partnerships to display"
+                    : `Showing ${startIndex + 1}–${Math.min(
+                        startIndex + partnershipsPerPage,
+                        filteredPartnerships.length,
+                      )} of ${filteredPartnerships.length} partnerships`}
+                </p>
+
+                {totalPages > 1 && (
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.max(prev - 1, 1))
+                      }
+                      disabled={currentPage === 1}
+                      className="rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      Previous
+                    </button>
+
+                    <span className="rounded-lg bg-gray-100 px-4 py-2 text-sm">
+                      Page {currentPage} of {totalPages}
+                    </span>
+
+                    <button
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                      }
+                      disabled={currentPage === totalPages}
+                      className="rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -508,9 +601,7 @@ export default function PartnershipAdminPage() {
                 </p>
 
                 <p className="mt-1 text-sm text-gray-700">
-                  {new Date(
-                    selectedPartnership.createdAt,
-                  ).toLocaleString()}
+                  {new Date(selectedPartnership.createdAt).toLocaleString()}
                 </p>
               </div>
 

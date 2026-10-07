@@ -70,8 +70,13 @@ export async function GET(request) {
       .sort({ createdAt: -1 })
       .limit(5);
 
-      // Get recent meetings
-      const recentMeetings = await Meeting.find()
+    // Get recent meetings
+    const recentMeetings = await Meeting.find()
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    // Get recent partnerships
+    const recentPartnerships = await Partnership.find()
       .sort({ createdAt: -1 })
       .limit(5);
 
@@ -90,6 +95,7 @@ export async function GET(request) {
         },
         recentApplications,
         recentMeetings,
+        recentPartnerships,
       },
       { status: 200 },
     );
