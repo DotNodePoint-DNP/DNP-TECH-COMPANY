@@ -12,7 +12,7 @@ type Meeting = {
   time: string;
   subject: string;
   message?: string;
-  status: "Pending" | "Confirmed" | "Completed" | "Cancelled";
+  status: "Pending" | "Approved" | "Rejected" | "Completed";
   createdAt: string;
 };
 
@@ -23,6 +23,8 @@ export default function MeetingsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [dateFilter, setDateFilter] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const meetingsPerPage = 10;
 
   // Fetch meetings
   const fetchMeetings = async () => {
@@ -147,20 +149,29 @@ export default function MeetingsPage() {
     return matchesSearch && matchesStatus && matchesDate;
   });
 
+  const totalPages = Math.ceil(filteredMeetings.length / meetingsPerPage);
+
+  const startIndex = (currentPage - 1) * meetingsPerPage;
+
+  const paginatedMeetings = filteredMeetings.slice(
+    startIndex,
+    startIndex + meetingsPerPage,
+  );
+
   const pendingMeetings = meetings.filter(
     (meeting) => meeting.status === "Pending",
   ).length;
 
-  const confirmedMeetings = meetings.filter(
-    (meeting) => meeting.status === "Confirmed",
+  const approvedMeetings = meetings.filter(
+    (meeting) => meeting.status === "Approved",
   ).length;
 
   const completedMeetings = meetings.filter(
     (meeting) => meeting.status === "Completed",
   ).length;
 
-  const cancelledMeetings = meetings.filter(
-    (meeting) => meeting.status === "Cancelled",
+  const rejectedMeetings = meetings.filter(
+    (meeting) => meeting.status === "Rejected",
   ).length;
 
   const getStatusClass = (status: Meeting["status"]) => {
@@ -168,13 +179,13 @@ export default function MeetingsPage() {
       case "Pending":
         return "bg-yellow-100 text-yellow-800";
 
-      case "Confirmed":
+      case "Approved":
         return "bg-green-100 text-green-800";
 
       case "Completed":
         return "bg-blue-100 text-blue-800";
 
-      case "Cancelled":
+      case "Rejected":
         return "bg-red-100 text-red-800";
 
       default:
@@ -223,12 +234,12 @@ export default function MeetingsPage() {
           </p>
         </div>
 
-        {/* Confirmed */}
+        {/* Approved */}
         <div className="rounded-xl bg-white p-5 shadow-sm border border-gray-200">
-          <p className="text-sm font-medium text-gray-500">Confirmed</p>
+          <p className="text-sm font-medium text-gray-500">Approved</p>
 
           <p className="mt-2 text-3xl font-bold text-green-600">
-            {confirmedMeetings}
+            {approvedMeetings}
           </p>
         </div>
 
@@ -241,12 +252,12 @@ export default function MeetingsPage() {
           </p>
         </div>
 
-        {/* Cancelled */}
+        {/* Rejected */}
         <div className="rounded-xl bg-white p-5 shadow-sm border border-gray-200">
-          <p className="text-sm font-medium text-gray-500">Cancelled</p>
+          <p className="text-sm font-medium text-gray-500">Rejected</p>
 
           <p className="mt-2 text-3xl font-bold text-red-600">
-            {cancelledMeetings}
+            {rejectedMeetings}
           </p>
         </div>
       </div>
@@ -265,19 +276,26 @@ export default function MeetingsPage() {
                 type="text"
                 placeholder="Search name, email, subject..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 sm:w-72"
               />
 
               <select
-                value={dateFilter}
-                onChange={(e) => setDateFilter(e.target.value)}
+                value={statusFilter}
+                onChange={(e) => {
+                  setStatusFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none focus:border-blue-500 text-gray-600"
               >
-                <option value="All">All Dates</option>
-                <option value="Today">Today</option>
-                <option value="Upcoming">Upcoming</option>
-                <option value="Past">Past</option>
+                <option value="All">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Completed">Completed</option>
               </select>
             </div>
           </div>
@@ -328,7 +346,7 @@ export default function MeetingsPage() {
               </thead>
 
               <tbody className="divide-y divide-gray-200">
-                {filteredMeetings.map((meeting) => (
+                {paginatedMeetings.map((meeting) => (
                   <tr key={meeting._id} className="hover:bg-gray-50">
                     <td className="px-5 py-4">
                       <p className="font-medium text-gray-900">
@@ -366,9 +384,9 @@ export default function MeetingsPage() {
                         )}`}
                       >
                         <option value="Pending">Pending</option>
-                        <option value="Confirmed">Confirmed</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
                         <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
                       </select>
                     </td>
 
@@ -393,6 +411,40 @@ export default function MeetingsPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {filteredMeetings.length > 0 && (
+          <div className="flex flex-col items-center justify-between gap-4 border-t border-gray-200 p-5 sm:flex-row">
+            <p className="text-sm text-gray-600">
+              Showing {startIndex + 1}–
+              {Math.min(startIndex + meetingsPerPage, filteredMeetings.length)}{" "}
+              of {filteredMeetings.length} meetings
+            </p>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))}
+                disabled={currentPage === 1}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Previous
+              </button>
+
+              <span className="text-sm text-gray-700">
+                Page {currentPage} of {Math.max(totalPages, 1)}
+              </span>
+
+              <button
+                onClick={() =>
+                  setCurrentPage((page) => Math.min(page + 1, totalPages))
+                }
+                disabled={currentPage >= totalPages}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -495,11 +547,11 @@ export default function MeetingsPage() {
                   >
                     <option value="Pending">Pending</option>
 
-                    <option value="Confirmed">Confirmed</option>
+                    <option value="Approved">Approved</option>
+
+                    <option value="Rejected">Rejected</option>
 
                     <option value="Completed">Completed</option>
-
-                    <option value="Cancelled">Cancelled</option>
                   </select>
                 </div>
               </div>

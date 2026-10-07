@@ -56,9 +56,9 @@ type Product = {
   name: string;
   description: string;
   category: string;
-  technologies: string[];
+  technologies: string;
   productUrl?: string;
-  status: string;
+  status: boolean;
   createdAt: string;
 };
 
@@ -883,30 +883,20 @@ export default function AdminDashboard() {
                         </td>
 
                         <td className="py-4 pr-4">
-                          <div className="flex flex-wrap gap-1">
-                            {Array.isArray(product.technologies) &&
-                              product.technologies
-                                .slice(0, 3)
-                                .map((technology) => (
-                                  <span
-                                    key={technology}
-                                    className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700"
-                                  >
-                                    {technology}
-                                  </span>
-                                ))}
-                          </div>
+                          <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700">
+                            {product.technologies || "N/A"}
+                          </span>
                         </td>
 
                         <td className="py-4 pr-4">
                           <span
                             className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                              product.status === "Active"
+                              product.status
                                 ? "bg-green-100 text-green-700"
-                                : "bg-gray-100 text-gray-700"
+                                : "bg-red-100 text-red-700"
                             }`}
                           >
-                            {product.status}
+                            {product.status ? "Active" : "Inactive"}
                           </span>
                         </td>
 
