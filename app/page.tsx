@@ -1,8 +1,46 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+type Product = {
+  _id: string;
+  name: string;
+  description: string;
+  category: string;
+  technologies: string;
+  productUrl?: string;
+  status: boolean;
+  createdAt: string;
+};
 
 export default function Home() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [productsLoading, setProductsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("/api/products");
+        const data = await response.json();
+
+        if (data.success) {
+          const activeProducts = (data.products || []).filter(
+            (product: Product) => product.status,
+          );
+
+          setProducts(activeProducts.slice(0, 3));
+        }
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      } finally {
+        setProductsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* Navbar */}
@@ -306,51 +344,95 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-              <div className="flex h-48 items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-700">
-                <span className="text-5xl">📊</span>
-              </div>
+          {/* Dynamic Products */}
+          {productsLoading ? (
+            <div className="mt-12 grid gap-8 md:grid-cols-3">
+              {[1, 2, 3].map((item) => (
+                <div
+                  key={item}
+                  className="animate-pulse overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+                >
+                  <div className="h-48 bg-gray-200" />
 
-              <div className="p-6">
-                <h3 className="text-xl font-bold">Business Management</h3>
+                  <div className="p-6">
+                    <div className="h-6 w-2/3 rounded bg-gray-200" />
 
-                <p className="mt-3 leading-7 text-gray-600">
-                  Manage your business operations efficiently with modern
-                  digital tools.
-                </p>
-              </div>
+                    <div className="mt-4 h-4 w-full rounded bg-gray-200" />
+
+                    <div className="mt-2 h-4 w-5/6 rounded bg-gray-200" />
+                  </div>
+                </div>
+              ))}
             </div>
+          ) : products.length === 0 ? (
+            <div className="mt-12 rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-6 py-16 text-center">
+              <p className="text-lg font-semibold text-gray-700">
+                No products available yet.
+              </p>
 
-            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-              <div className="flex h-48 items-center justify-center bg-gradient-to-br from-purple-600 to-indigo-700">
-                <span className="text-5xl">⚙️</span>
-              </div>
-
-              <div className="p-6">
-                <h3 className="text-xl font-bold">Custom Software</h3>
-
-                <p className="mt-3 leading-7 text-gray-600">
-                  Powerful software solutions tailored to your organization's
-                  requirements.
-                </p>
-              </div>
+              <p className="mt-2 text-gray-500">
+                Check back soon to explore our products.
+              </p>
             </div>
+          ) : (
+            <div className="mt-12 grid gap-8 md:grid-cols-3">
+              {products.map((product, index) => (
+                <div
+                  key={product._id}
+                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                >
+                  {/* Product Image Placeholder */}
+                  <div
+                    className={`flex h-48 items-center justify-center ${
+                      index === 0
+                        ? "bg-gradient-to-br from-blue-600 to-indigo-700"
+                        : index === 1
+                          ? "bg-gradient-to-br from-purple-600 to-indigo-700"
+                          : "bg-gradient-to-br from-cyan-600 to-blue-700"
+                    }`}
+                  >
+                    <span className="text-5xl">
+                      {index === 0 ? "📊" : index === 1 ? "⚙️" : "🚀"}
+                    </span>
+                  </div>
 
-            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-              <div className="flex h-48 items-center justify-center bg-gradient-to-br from-cyan-600 to-blue-700">
-                <span className="text-5xl">🚀</span>
-              </div>
+                  <div className="p-6">
+                    <p className="text-sm font-semibold text-blue-600">
+                      {product.category}
+                    </p>
 
-              <div className="p-6">
-                <h3 className="text-xl font-bold">Digital Solutions</h3>
+                    <h3 className="mt-2 text-xl font-bold text-gray-900">
+                      {product.name}
+                    </h3>
 
-                <p className="mt-3 leading-7 text-gray-600">
-                  Modern digital solutions that help organizations move forward.
-                </p>
-              </div>
+                    <p className="mt-3 line-clamp-3 leading-7 text-gray-600">
+                      {product.description}
+                    </p>
+
+                    {product.technologies && (
+                      <p className="mt-4 text-sm text-gray-500">
+                        <span className="font-semibold text-gray-700">
+                          Technologies:
+                        </span>{" "}
+                        {product.technologies}
+                      </p>
+                    )}
+
+                    {product.productUrl && (
+                      <a
+                        href={product.productUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-5 inline-block font-semibold text-blue-600 hover:text-blue-700"
+                      >
+                        View Product →
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
+          )}
         </div>
       </section>
 
