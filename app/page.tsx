@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 type Product = {
   _id: string;
@@ -17,7 +19,6 @@ type Product = {
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [productsLoading, setProductsLoading] = useState(true);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -42,89 +43,13 @@ export default function Home() {
     fetchProducts();
   }, []);
 
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/products", label: "Products" },
-    { href: "/services", label: "Services" },
-    { href: "/about", label: "About" },
-    { href: "/careers", label: "Careers" },
-    { href: "/contact", label: "Contact" },
-  ];
-
   return (
     <main className="min-h-screen overflow-hidden bg-white text-[#17143A]">
-      {/* Navbar */}
-      <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#2208b4] text-white shadow-lg">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
-          <Link
-            href="/"
-            className="text-2xl font-extrabold tracking-tight text-white"
-          >
-            Company<span className="text-[#C6B8FF]">.</span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden items-center gap-7 lg:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-gray-200 transition hover:text-[#C6B8FF]"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
-          <Link
-            href="/contact"
-            className="hidden rounded-xl bg-[#5145CD] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#4035B0] lg:inline-flex"
-          >
-            Get Started <span className="ml-2">↗</span>
-          </Link>
-
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileMenuOpen}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 text-2xl text-white transition hover:bg-white/10 lg:hidden"
-          >
-            {mobileMenuOpen ? "×" : "☰"}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="border-t border-white/10 bg-[#17143A] px-5 py-4 lg:hidden">
-            <div className="mx-auto flex max-w-7xl flex-col gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg px-4 py-3 text-sm font-medium text-gray-200 transition hover:bg-white/10 hover:text-[#C6B8FF]"
-                >
-                  {link.label}
-                </Link>
-              ))}
-
-              <Link
-                href="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="mt-2 rounded-lg bg-[#4b2d9e] px-4 py-3 text-center font-semibold text-white transition hover:bg-[#4035B0]"
-              >
-                Get Started ↗
-              </Link>
-            </div>
-          </div>
-        )}
-      </nav>
+      {/* Reusable Navbar */}
+      <Navbar />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-[#17143A] text-white">
-        {/* Decorative Background Elements */}
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#5145CD]/30 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-40 left-1/4 h-96 w-96 rounded-full bg-[#8175E8]/20 blur-3xl" />
 
@@ -186,6 +111,7 @@ export default function Home() {
                     <span className="h-3 w-3 rounded-full bg-amber-300" />
                     <span className="h-3 w-3 rounded-full bg-emerald-400" />
                   </div>
+
                   <span className="text-xs tracking-wide text-gray-400">
                     DIGITAL WORKSPACE
                   </span>
@@ -597,7 +523,7 @@ export default function Home() {
       </section>
 
       {/* Call To Action */}
-      <section className="bg-[#3d3d81] px-5 py-20 sm:px-8 sm:py-24 lg:px-10">
+      <section className="bg-white px-5 py-20 sm:px-8 sm:py-24 lg:px-10">
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-[#17143A] px-6 py-14 text-center sm:px-12 sm:py-20">
           <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#5145CD]/40 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-28 -left-16 h-64 w-64 rounded-full bg-[#C6B8FF]/15 blur-3xl" />
@@ -635,114 +561,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/10 bg-[#03011a] text-white">
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 lg:px-10">
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Company Info */}
-            <div>
-              <Link
-                href="/"
-                className="text-2xl font-extrabold tracking-tight text-white"
-              >
-                Company<span className="text-[#C6B8FF]">.</span>
-              </Link>
-
-              <p className="mt-4 max-w-xs text-sm leading-7 text-gray-300">
-                Building modern digital solutions for businesses and
-                organizations.
-              </p>
-
-              <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-gray-300">
-                <span className="h-2 w-2 rounded-full bg-[#C6B8FF]" />
-                Technology for tomorrow
-              </div>
-            </div>
-
-            {/* Company Links */}
-            <div>
-              <h3 className="font-bold text-white">Company</h3>
-
-              <div className="mt-5 space-y-3">
-                <Link
-                  href="/about"
-                  className="block text-sm text-gray-300 transition hover:text-[#C6B8FF]"
-                >
-                  About Us
-                </Link>
-
-                <Link
-                  href="/careers"
-                  className="block text-sm text-gray-300 transition hover:text-[#C6B8FF]"
-                >
-                  Careers
-                </Link>
-
-                <Link
-                  href="/partnership"
-                  className="block text-sm text-gray-300 transition hover:text-[#C6B8FF]"
-                >
-                  Partnership
-                </Link>
-              </div>
-            </div>
-
-            {/* Services Links */}
-            <div>
-              <h3 className="font-bold text-white">Services</h3>
-
-              <div className="mt-5 space-y-3">
-                <Link
-                  href="/services"
-                  className="block text-sm text-gray-300 transition hover:text-[#C6B8FF]"
-                >
-                  Web Development
-                </Link>
-
-                <Link
-                  href="/services"
-                  className="block text-sm text-gray-300 transition hover:text-[#C6B8FF]"
-                >
-                  App Development
-                </Link>
-
-                <Link
-                  href="/services"
-                  className="block text-sm text-gray-300 transition hover:text-[#C6B8FF]"
-                >
-                  Software Development
-                </Link>
-              </div>
-            </div>
-
-            {/* Contact Information */}
-            <div>
-              <h3 className="font-bold text-white">Get In Touch</h3>
-
-              <div className="mt-5 space-y-3 text-sm text-gray-300">
-                <p>info@company.com</p>
-                <p>+977-XXXXXXXXXX</p>
-                <p>Nepal</p>
-              </div>
-
-              <Link
-                href="/contact"
-                className="mt-5 inline-flex items-center text-sm font-semibold text-[#C6B8FF] transition hover:text-white"
-              >
-                Contact our team <span className="ml-2">→</span>
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-7 text-center text-sm text-gray-400 sm:flex-row sm:items-center sm:justify-between sm:text-left">
-            <p>© {new Date().getFullYear()} Company. All rights reserved.</p>
-
-            <Link href="/" className="transition hover:text-[#C6B8FF]">
-              Built for a digital future.
-            </Link>
-          </div>
-        </div>
-      </footer>
+      {/* Reusable Footer */}
+      <Footer />
     </main>
   );
 }
