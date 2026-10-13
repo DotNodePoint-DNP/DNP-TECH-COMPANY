@@ -5,8 +5,9 @@ export default function Footer() {
     <footer className="bg-[#17143A] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Link href="/" className="text-2xl font-bold  text-green-400">
-            DotNode Point
+          <Link href="/" className="text-2xl font-bold tracking-wide">
+            <span className="text-green-400">DotNode</span>{" "}
+            <span className="text-green-200">Point</span>
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-7 text-gray-300">
             Building innovative digital solutions to help businesses grow and
