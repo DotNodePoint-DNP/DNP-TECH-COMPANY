@@ -1,80 +1,22 @@
 import Link from "next/link";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* NAVBAR */}
-      <nav className="sticky top-0 z-50 w-full border-b border-blue-700 bg-blue-800">
-        <div className="flex w-full items-center justify-between px-6 py-4 md:px-10 lg:px-16 xl:px-20">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-2xl font-bold tracking-tight text-white"
-          >
-            Company<span className="text-blue-300">.</span>
-          </Link>
-
-          {/* Navigation */}
-          <div className="hidden items-center gap-8 md:flex">
-            <Link
-              href="/"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/products"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Products
-            </Link>
-
-            <Link
-              href="/services"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Services
-            </Link>
-
-            <Link href="/about" className="text-sm font-medium text-white">
-              About
-            </Link>
-
-            <Link
-              href="/careers"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Careers
-            </Link>
-
-            <Link
-              href="/contact"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Contact
-            </Link>
-          </div>
-
-          {/* Get Started */}
-          <Link
-            href="/contact"
-            className="rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-blue-800 transition hover:bg-blue-50"
-          >
-            Get Started
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* HERO */}
-      <section className="bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <section className="bg-[#17143A] from-blue-50 via-white to-indigo-50">
         <div className="mx-auto max-w-7xl px-6 py-24 md:px-10 lg:px-16 lg:py-32">
           <div className="max-w-3xl">
             <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-700">
               About Us
             </p>
 
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-bold tracking-tight text-green-400 md:text-5xl lg:text-6xl">
               Building technology that helps businesses grow.
             </h1>
 
@@ -104,7 +46,7 @@ export default function AboutPage() {
       </section>
 
       {/* WHO WE ARE */}
-      <section className="bg-white">
+      <section className="bg-[#0c0a29]">
         <div className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-16 lg:py-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
@@ -112,7 +54,7 @@ export default function AboutPage() {
                 Who We Are
               </p>
 
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+              <h2 className="text-3xl font-bold tracking-tight text-green-400 md:text-4xl">
                 Technology with purpose
               </h2>
 
@@ -177,20 +119,20 @@ export default function AboutPage() {
       </section>
 
       {/* MISSION & VISION */}
-      <section className="bg-gray-50">
+      <section className="bg-[#17143A] py-24">
         <div className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-16 lg:py-24">
           <div className="grid gap-8 md:grid-cols-2">
             {/* Mission */}
-            <div className="rounded-2xl bg-blue-800 p-8 text-white md:p-10">
-              <p className="text-sm font-semibold uppercase tracking-widest text-blue-200">
+            <div className="rounded-2xl border-gray-200 bg-white p-8 md:p-10">
+              <p className="text-sm font-semibold uppercase tracking-widest text-blue-700">
                 Our Mission
               </p>
 
-              <h2 className="mt-4 text-3xl font-bold">
+              <h2 className="text-gray-900 mt-4 text-3xl font-bold">
                 Making technology practical and accessible.
               </h2>
 
-              <p className="mt-5 leading-8 text-blue-100">
+              <p className="mt-5 leading-8 text-gray-600">
                 Our mission is to develop reliable and user-friendly digital
                 solutions that help businesses solve problems, improve
                 efficiency, and create better experiences for their customers.
@@ -218,14 +160,14 @@ export default function AboutPage() {
       </section>
 
       {/* WHAT WE DO */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-16 lg:py-24">
+      <section className="bg-[#0c0a29] py-24">
+        <div className="mx-auto max-w-7xl bg-[#0c0a29] width-full">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-semibold uppercase tracking-widest text-blue-700">
               What We Do
             </p>
 
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-green-400 md:text-4xl">
               Digital solutions for modern businesses
             </h2>
 
@@ -237,7 +179,7 @@ export default function AboutPage() {
           </div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
+            <div className="bg-white rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
               <h3 className="text-xl font-semibold text-gray-900">
                 Web Development
               </h3>
@@ -247,7 +189,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
+            <div className="bg-white rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
               <h3 className="text-xl font-semibold text-gray-900">
                 Software Development
               </h3>
@@ -257,7 +199,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
+            <div className="bg-white rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
               <h3 className="text-xl font-semibold text-gray-900">
                 App Development
               </h3>
@@ -267,7 +209,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
+            <div className="bg-white rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
               <h3 className="text-xl font-semibold text-gray-900">
                 UI/UX Design
               </h3>
@@ -277,7 +219,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
+            <div className="bg-white rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
               <h3 className="text-xl font-semibold text-gray-900">
                 Business Solutions
               </h3>
@@ -287,7 +229,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
+            <div className="bg-white rounded-2xl border border-gray-200 p-7 transition hover:-translate-y-1 hover:shadow-lg">
               <h3 className="text-xl font-semibold text-gray-900">
                 Technology Support
               </h3>
@@ -326,95 +268,7 @@ export default function AboutPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-gray-200 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-12 md:px-10 lg:px-16">
-          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-            {/* Company */}
-            <div>
-              <Link
-                href="/"
-                className="text-2xl font-bold tracking-tight text-gray-900"
-              >
-                Company<span className="text-blue-700">.</span>
-              </Link>
-
-              <p className="mt-4 max-w-sm leading-7 text-gray-600">
-                Building modern digital solutions for businesses and
-                organizations.
-              </p>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h3 className="font-semibold text-gray-900">Quick Links</h3>
-
-              <div className="mt-4 flex flex-col gap-3 text-sm text-gray-600">
-                <Link href="/" className="hover:text-blue-700">
-                  Home
-                </Link>
-
-                <Link href="/products" className="hover:text-blue-700">
-                  Products
-                </Link>
-
-                <Link href="/services" className="hover:text-blue-700">
-                  Services
-                </Link>
-
-                <Link href="/about" className="hover:text-blue-700">
-                  About
-                </Link>
-
-                <Link href="/careers" className="hover:text-blue-700">
-                  Careers
-                </Link>
-
-                <Link href="/contact" className="hover:text-blue-700">
-                  Contact
-                </Link>
-              </div>
-            </div>
-
-            {/* Services */}
-            <div>
-              <h3 className="font-semibold text-gray-900">Services</h3>
-
-              <div className="mt-4 flex flex-col gap-3 text-sm text-gray-600">
-                <Link href="/services" className="hover:text-blue-700">
-                  Web Development
-                </Link>
-
-                <Link href="/services" className="hover:text-blue-700">
-                  Software Development
-                </Link>
-
-                <Link href="/services" className="hover:text-blue-700">
-                  App Development
-                </Link>
-
-                <Link href="/services" className="hover:text-blue-700">
-                  UI/UX Design
-                </Link>
-              </div>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <h3 className="font-semibold text-gray-900">Contact</h3>
-
-              <div className="mt-4 space-y-3 text-sm text-gray-600">
-                <p>📧 info@company.com</p>
-                <p>📞 +977-XXXXXXXXXX</p>
-                <p>📍 Nepal</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-10 border-t border-gray-200 pt-6 text-sm text-gray-500">
-            © {new Date().getFullYear()} Company. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
