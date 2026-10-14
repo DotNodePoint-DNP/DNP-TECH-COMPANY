@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -74,77 +76,17 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* NAVBAR */}
-      <nav className="sticky top-0 z-50 w-full border-b border-blue-700 bg-blue-800">
-        <div className="flex w-full items-center justify-between px-6 py-4 md:px-10 lg:px-16 xl:px-20">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-2xl font-bold tracking-tight text-white"
-          >
-            Company<span className="text-blue-300">.</span>
-          </Link>
-
-          {/* Navigation */}
-          <div className="hidden items-center gap-8 md:flex">
-            <Link
-              href="/"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/products"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Products
-            </Link>
-
-            <Link
-              href="/services"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Services
-            </Link>
-
-            <Link
-              href="/about"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              About
-            </Link>
-
-            <Link
-              href="/careers"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Careers
-            </Link>
-
-            <Link href="/contact" className="text-sm font-medium text-white">
-              Contact
-            </Link>
-          </div>
-
-          {/* Get Started */}
-          <Link
-            href="/contact"
-            className="rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-blue-800 transition hover:bg-blue-50"
-          >
-            Get Started
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <section className="relative overflow-hidden bg-[#17143A]">
         <div className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-16 lg:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-700">
               Get In Touch
             </p>
 
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+            <h1 className="text-4xl font-bold tracking-tight text-green-400 md:text-5xl">
               Let&apos;s Talk About Your Project
             </h1>
 
@@ -157,7 +99,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="bg-white py-20">
+      <section className="bg-[#0c0a29] py-20">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 md:px-10 lg:grid-cols-5 lg:px-16">
           {/* Contact Information */}
           <div className="lg:col-span-2">
@@ -165,7 +107,7 @@ export default function ContactPage() {
               Contact Us
             </p>
 
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">
+            <h2 className="mt-3 text-3xl font-bold text-green-400">
               We&apos;d love to hear from you
             </h2>
 
@@ -405,80 +347,7 @@ export default function ContactPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-950 text-gray-300">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:px-10 md:grid-cols-2 lg:grid-cols-4 lg:px-16">
-          {/* Company */}
-          <div>
-            <h3 className="text-xl font-bold text-white">Company</h3>
-
-            <p className="mt-4 text-sm leading-6 text-gray-400">
-              Building modern digital solutions for businesses and
-              organizations.
-            </p>
-          </div>
-
-          {/* Company Links */}
-          <div>
-            <h4 className="font-semibold text-white">Company</h4>
-
-            <div className="mt-4 space-y-3 text-sm">
-              <Link href="/about" className="block transition hover:text-white">
-                About Us
-              </Link>
-
-              <Link
-                href="/careers"
-                className="block transition hover:text-white"
-              >
-                Careers
-              </Link>
-
-              <Link
-                href="/contact"
-                className="block transition hover:text-white"
-              >
-                Contact
-              </Link>
-
-              <Link
-                href="/partnership"
-                className="block transition hover:text-white"
-              >
-                Partnership
-              </Link>
-            </div>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h4 className="font-semibold text-white">Services</h4>
-
-            <div className="mt-4 space-y-3 text-sm text-gray-400">
-              <p>Web Development</p>
-              <p>Software Development</p>
-              <p>App Development</p>
-              <p>UI/UX Design</p>
-            </div>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="font-semibold text-white">Contact</h4>
-
-            <div className="mt-4 space-y-3 text-sm text-gray-400">
-              <p>info@company.com</p>
-              <p>+977-XXXXXXXXXX</p>
-              <p>Nepal</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-gray-800">
-          <div className="mx-auto max-w-7xl px-6 py-6 text-center text-sm text-gray-500 md:px-10 lg:px-16">
-            © {new Date().getFullYear()} Company. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }

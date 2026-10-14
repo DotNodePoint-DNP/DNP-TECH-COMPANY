@@ -335,7 +335,7 @@ export default function ServicesPage() {
 
           <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {/* Step 1 */}
-            <div className="relative rounded-2xl border border-gray-200 p-7 transition hover:border-[#2208b4]/30 hover:shadow-lg">
+            <div className="relative rounded-2xl border border-gray-200 p-7 transition hover:border-[#2208b4]/30 hover:shadow-lg bg-white">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2208b4] font-bold text-white">
                 01
               </div>
@@ -348,7 +348,7 @@ export default function ServicesPage() {
             </div>
 
             {/* Step 2 */}
-            <div className="relative rounded-2xl border border-gray-200 p-7 transition hover:border-[#2208b4]/30 hover:shadow-lg">
+            <div className="relative rounded-2xl border bg-white border-gray-200 p-7 transition hover:border-[#2208b4]/30 hover:shadow-lg">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2208b4] font-bold text-white">
                 02
               </div>
@@ -362,7 +362,7 @@ export default function ServicesPage() {
             </div>
 
             {/* Step 3 */}
-            <div className="relative rounded-2xl border border-gray-200 p-7 transition hover:border-[#2208b4]/30 hover:shadow-lg">
+            <div className="relative rounded-2xl border bg-white border-gray-200 p-7 transition hover:border-[#2208b4]/30 hover:shadow-lg">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2208b4] font-bold text-white">
                 03
               </div>
@@ -376,7 +376,7 @@ export default function ServicesPage() {
             </div>
 
             {/* Step 4 */}
-            <div className="relative rounded-2xl border border-gray-200 p-7 transition hover:border-[#2208b4]/30 hover:shadow-lg">
+            <div className="relative rounded-2xl border bg-white border-gray-200 p-7 transition hover:border-[#2208b4]/30 hover:shadow-lg">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2208b4] font-bold text-white">
                 04
               </div>
