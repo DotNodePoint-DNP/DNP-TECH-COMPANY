@@ -42,7 +42,7 @@ export default function Navbar() {
         {/* RIGHT SIDE - GET STARTED */}
         <div className="hidden justify-end lg:flex">
           <Link
-            href="/contact"
+            href="/login"
             className="rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-[#2208b4] transition hover:bg-blue-100"
           >
             Get Started
@@ -78,8 +78,9 @@ export default function Navbar() {
               </Link>
             ))}
 
+            {/* MOBILE GET STARTED */}
             <Link
-              href="/contact"
+              href="/login"
               onClick={() => setMenuOpen(false)}
               className="mt-2 w-fit rounded-lg bg-white px-5 py-2.5 font-semibold text-[#2208b4]"
             >
