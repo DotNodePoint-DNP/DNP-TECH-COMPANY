@@ -20,11 +20,10 @@ function authenticate(request) {
 }
 
 // GET SINGLE CAREER
+// PUBLIC - No admin authentication required
 export async function GET(request, { params }) {
   try {
     await connectDB();
-
-    authenticate(request);
 
     const { id } = await params;
 
@@ -38,13 +37,32 @@ export async function GET(request, { params }) {
       );
     }
 
-    const career = await Career.findById(id);
+    const career = await Career.findOne({
+      _id: id,
+      status: true,
+    });
 
     if (!career) {
       return NextResponse.json(
         {
           success: false,
           message: "Career vacancy not found",
+        },
+        { status: 404 },
+      );
+    }
+
+    // Check deadline
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const deadline = new Date(career.deadline);
+
+    if (deadline < today) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "This career opportunity has expired.",
         },
         { status: 404 },
       );
@@ -71,6 +89,7 @@ export async function GET(request, { params }) {
 }
 
 // UPDATE CAREER
+// ADMIN ONLY
 export async function PUT(request, { params }) {
   try {
     await connectDB();
@@ -161,6 +180,16 @@ export async function PUT(request, { params }) {
   } catch (error) {
     console.error("Update career error:", error);
 
+    if (error.message === "Unauthorized") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unauthorized",
+        },
+        { status: 401 },
+      );
+    }
+
     return NextResponse.json(
       {
         success: false,
@@ -172,6 +201,7 @@ export async function PUT(request, { params }) {
 }
 
 // DELETE CAREER
+// ADMIN ONLY
 export async function DELETE(request, { params }) {
   try {
     await connectDB();
@@ -211,6 +241,16 @@ export async function DELETE(request, { params }) {
     );
   } catch (error) {
     console.error("Delete career error:", error);
+
+    if (error.message === "Unauthorized") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unauthorized",
+        },
+        { status: 401 },
+      );
+    }
 
     return NextResponse.json(
       {

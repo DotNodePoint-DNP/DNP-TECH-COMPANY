@@ -3,7 +3,7 @@ import connectDB from "../../config/db";
 import Career from "../../config/models/Career";
 import jwt from "jsonwebtoken";
 
-// CHECK AUTHENTICATION
+// CHECK ADMIN AUTHENTICATION
 function authenticate(request) {
   const token = request.cookies.get("adminToken")?.value;
 
@@ -18,14 +18,15 @@ function authenticate(request) {
   }
 }
 
-// GET ALL CAREERS
+// GET ALL ACTIVE CAREERS
+// PUBLIC - No admin login required
 export async function GET(request) {
   try {
     await connectDB();
 
-    authenticate(request);
-
-    const careers = await Career.find().sort({
+    const careers = await Career.find({
+      status: true,
+    }).sort({
       createdAt: -1,
     });
 
@@ -43,14 +44,15 @@ export async function GET(request) {
     return NextResponse.json(
       {
         success: false,
-        message: "Unauthorized or failed to fetch careers",
+        message: "Failed to fetch careers",
       },
-      { status: 401 },
+      { status: 500 },
     );
   }
 }
 
 // CREATE CAREER
+// ADMIN ONLY
 export async function POST(request) {
   try {
     await connectDB();
@@ -111,6 +113,16 @@ export async function POST(request) {
     );
   } catch (error) {
     console.error("Create career error:", error);
+
+    if (error.message === "Unauthorized") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unauthorized",
+        },
+        { status: 401 },
+      );
+    }
 
     return NextResponse.json(
       {

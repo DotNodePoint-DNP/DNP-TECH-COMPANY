@@ -23,19 +23,6 @@ export default function CareersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [showApplicationForm, setShowApplicationForm] = useState(false);
-  const [selectedCareer, setSelectedCareer] = useState<Career | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [applicationMessage, setApplicationMessage] = useState("");
-  const [applicationError, setApplicationError] = useState("");
-
-  const [applicationForm, setApplicationForm] = useState({
-    applicantName: "",
-    email: "",
-    phone: "",
-    coverLetter: "",
-  });
-
   useEffect(() => {
     const fetchCareers = async () => {
       try {
@@ -62,6 +49,7 @@ export default function CareersPage() {
     fetchCareers();
   }, []);
 
+  // Only show active careers whose deadline has not passed
   const activeCareers = careers.filter((career) => {
     if (!career.status) return false;
 
@@ -81,77 +69,16 @@ export default function CareersPage() {
     });
   };
 
-  const openApplicationForm = (career: Career) => {
-    setSelectedCareer(career);
-    setApplicationMessage("");
-    setApplicationError("");
-    setApplicationForm({
-      applicantName: "",
-      email: "",
-      phone: "",
-      coverLetter: "",
-    });
-    setShowApplicationForm(true);
-  };
-
-  const handleApplicationSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-  ) => {
-    e.preventDefault();
-
-    if (!selectedCareer) return;
-
-    try {
-      setSubmitting(true);
-      setApplicationError("");
-      setApplicationMessage("");
-
-      const response = await fetch("/api/applications", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          career: selectedCareer._id,
-          ...applicationForm,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to submit application.");
-      }
-
-      setApplicationMessage(
-        "Your application has been submitted successfully!",
-      );
-
-      setApplicationForm({
-        applicantName: "",
-        email: "",
-        phone: "",
-        coverLetter: "",
-      });
-    } catch (err) {
-      setApplicationError(
-        err instanceof Error ? err.message : "Failed to submit application.",
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* NAVBAR */}
       <Navbar />
 
-      {/* Hero */}
+      {/* HERO */}
       <section className="relative overflow-hidden bg-[#17143A]">
         <div className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-16 lg:py-24">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-700">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#C6B8FF]">
               Careers
             </p>
 
@@ -159,7 +86,7 @@ export default function CareersPage() {
               Build Your Future With Us
             </h1>
 
-            <p className="mt-6 text-lg leading-8 text-gray-600">
+            <p className="mt-6 text-lg leading-8 text-gray-300">
               Join our team and work on meaningful technology, innovative
               products, and digital solutions that make a difference.
             </p>
@@ -167,11 +94,12 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* Career Opportunities */}
+      {/* CAREER OPPORTUNITIES */}
       <section className="bg-[#0c0a29] py-20">
         <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16">
+          {/* SECTION HEADING */}
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-blue-700">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#C6B8FF]">
               Open Positions
             </p>
 
@@ -179,27 +107,27 @@ export default function CareersPage() {
               Find Your Next Opportunity
             </h2>
 
-            <p className="mt-4 leading-7 text-gray-600">
+            <p className="mt-4 leading-7 text-gray-300">
               Explore our current openings and find a role that matches your
               skills and career goals.
             </p>
           </div>
 
-          {/* Loading */}
+          {/* LOADING */}
           {loading && (
             <div className="mt-14 text-center">
-              <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-blue-100 border-t-blue-800"></div>
+              <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-[#C6B8FF]/30 border-t-[#5145CD]"></div>
 
-              <p className="mt-4 text-sm text-gray-500">
+              <p className="mt-4 text-sm text-gray-400">
                 Loading available positions...
               </p>
             </div>
           )}
 
-          {/* Error */}
+          {/* ERROR */}
           {!loading && error && (
-            <div className="mx-auto mt-14 max-w-2xl rounded-xl border border-red-200 bg-red-50 p-6 text-center">
-              <p className="font-medium text-red-700">{error}</p>
+            <div className="mx-auto mt-14 max-w-2xl rounded-xl border border-red-500/30 bg-red-950/40 p-6 text-center">
+              <p className="font-medium text-red-300">{error}</p>
 
               <button
                 onClick={() => window.location.reload()}
@@ -210,9 +138,9 @@ export default function CareersPage() {
             </div>
           )}
 
-          {/* No Careers */}
+          {/* NO CAREERS */}
           {!loading && !error && activeCareers.length === 0 && (
-            <div className="mx-auto mt-14 max-w-2xl rounded-2xl border border-gray-200 bg-gray-50 p-10 text-center">
+            <div className="mx-auto mt-14 max-w-2xl rounded-2xl border border-white/10 bg-white p-10 text-center">
               <div className="text-5xl">💼</div>
 
               <h3 className="mt-5 text-xl font-bold text-gray-900">
@@ -226,25 +154,25 @@ export default function CareersPage() {
 
               <Link
                 href="/contact"
-                className="mt-6 inline-flex rounded-lg bg-blue-800 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+                className="mt-6 inline-flex rounded-lg bg-[#5145CD] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#4036b5]"
               >
                 Contact Us
               </Link>
             </div>
           )}
 
-          {/* Careers */}
+          {/* CAREER CARDS */}
           {!loading && !error && activeCareers.length > 0 && (
             <div className="mt-14 grid gap-8 lg:grid-cols-2">
               {activeCareers.map((career) => (
                 <article
                   key={career._id}
-                  className="group rounded-2xl border border-gray-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg md:p-8"
+                  className="group rounded-2xl border border-white/10 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#C6B8FF] hover:shadow-xl md:p-8"
                 >
-                  {/* Job Header */}
+                  {/* JOB HEADER */}
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div>
-                      <span className="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+                      <span className="inline-flex rounded-full bg-[#C6B8FF]/30 px-3 py-1 text-xs font-semibold text-[#5145CD]">
                         {career.employmentType}
                       </span>
 
@@ -252,7 +180,7 @@ export default function CareersPage() {
                         {career.title}
                       </h3>
 
-                      <p className="mt-2 font-medium text-blue-700">
+                      <p className="mt-2 font-medium text-[#5145CD]">
                         {career.department}
                       </p>
                     </div>
@@ -268,42 +196,14 @@ export default function CareersPage() {
                     </div>
                   </div>
 
-                  {/* Description */}
+                  {/* SHORT DESCRIPTION */}
                   <div className="mt-7">
-                    <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-900">
-                      About the Role
-                    </h4>
-
-                    <p className="mt-3 whitespace-pre-line text-sm leading-7 text-gray-600">
+                    <p className="line-clamp-3 text-sm leading-7 text-gray-600">
                       {career.description}
                     </p>
                   </div>
 
-                  {/* Requirements */}
-                  <div className="mt-7">
-                    <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-900">
-                      Requirements
-                    </h4>
-
-                    <p className="mt-3 whitespace-pre-line text-sm leading-7 text-gray-600">
-                      {career.requirements}
-                    </p>
-                  </div>
-
-                  {/* Salary */}
-                  {career.salary && (
-                    <div className="mt-7 rounded-xl bg-blue-50 p-4">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">
-                        Salary
-                      </p>
-
-                      <p className="mt-1 text-sm font-medium text-gray-800">
-                        {career.salary}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Footer */}
+                  {/* FOOTER */}
                   <div className="mt-8 flex flex-col gap-4 border-t border-gray-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                       <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
@@ -315,13 +215,12 @@ export default function CareersPage() {
                       </p>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => openApplicationForm(career)}
-                      className="inline-flex justify-center rounded-lg bg-blue-800 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+                    <Link
+                      href={`/careers/${career._id}`}
+                      className="inline-flex justify-center rounded-lg bg-[#5145CD] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#4036b5]"
                     >
-                      Apply Now
-                    </button>
+                      View Opportunity →
+                    </Link>
                   </div>
                 </article>
               ))}
@@ -330,11 +229,11 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* Why Join Us */}
+      {/* WHY JOIN US */}
       <section className="bg-[#17143A] py-20">
         <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-blue-700">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#C6B8FF]">
               Why Join Us
             </p>
 
@@ -342,15 +241,16 @@ export default function CareersPage() {
               Grow With Our Team
             </h2>
 
-            <p className="mt-4 leading-7 text-gray-600">
+            <p className="mt-4 leading-7 text-gray-300">
               We believe great products are built by people who are curious,
               collaborative, and passionate about technology.
             </p>
           </div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            <div className="rounded-2xl border border-gray-200 bg-white p-7 text-center shadow-sm">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-blue-100 text-2xl">
+            {/* INNOVATION */}
+            <div className="rounded-2xl border border-white/10 bg-white p-7 text-center shadow-sm">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-[#C6B8FF]/30 text-2xl">
                 🚀
               </div>
 
@@ -364,8 +264,9 @@ export default function CareersPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-7 text-center shadow-sm">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-blue-100 text-2xl">
+            {/* COLLABORATION */}
+            <div className="rounded-2xl border border-white/10 bg-white p-7 text-center shadow-sm">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-[#C6B8FF]/30 text-2xl">
                 🤝
               </div>
 
@@ -379,8 +280,9 @@ export default function CareersPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-7 text-center shadow-sm">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-blue-100 text-2xl">
+            {/* GROWTH */}
+            <div className="rounded-2xl border border-white/10 bg-white p-7 text-center shadow-sm">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-[#C6B8FF]/30 text-2xl">
                 📈
               </div>
 
@@ -396,189 +298,28 @@ export default function CareersPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-blue-800 py-16">
+      <section className="bg-[#5145CD] py-16">
         <div className="mx-auto max-w-5xl px-6 text-center md:px-10">
           <h2 className="text-3xl font-bold text-white md:text-4xl">
             Don&apos;t see the right position?
           </h2>
 
-          <p className="mx-auto mt-4 max-w-2xl leading-7 text-blue-100">
+          <p className="mx-auto mt-4 max-w-2xl leading-7 text-[#E9E6FF]">
             We are always interested in meeting talented people. Get in touch
             and tell us how you could contribute to our team.
           </p>
 
           <Link
             href="/contact"
-            className="mt-8 inline-flex rounded-lg bg-white px-7 py-3.5 font-semibold text-blue-800 transition hover:bg-blue-50"
+            className="mt-8 inline-flex rounded-lg bg-white px-7 py-3.5 font-semibold text-[#5145CD] transition hover:bg-gray-100"
           >
             Contact Us
           </Link>
         </div>
       </section>
 
-      {/* Footer */}
+      {/* FOOTER */}
       <Footer />
-
-      {/* APPLICATION FORM MODAL */}
-      {showApplicationForm && selectedCareer && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4">
-          <div className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Apply for Position
-                </h2>
-                <p className="mt-1 text-sm text-blue-700">
-                  {selectedCareer.title}
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setShowApplicationForm(false)}
-                className="rounded-lg p-2 text-2xl text-gray-500 hover:bg-gray-100"
-              >
-                ×
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <form
-              onSubmit={handleApplicationSubmit}
-              className="overflow-y-auto px-6 py-6"
-            >
-              {applicationMessage ? (
-                <div className="rounded-xl border border-green-200 bg-green-50 p-6 text-center">
-                  <div className="text-4xl">✓</div>
-                  <h3 className="mt-3 text-xl font-bold text-green-700">
-                    Application Submitted!
-                  </h3>
-                  <p className="mt-2 text-sm text-green-700">
-                    {applicationMessage}
-                  </p>
-
-                  <button
-                    type="button"
-                    onClick={() => setShowApplicationForm(false)}
-                    className="mt-5 rounded-lg bg-blue-800 px-6 py-3 font-semibold text-white hover:bg-blue-700"
-                  >
-                    Close
-                  </button>
-                </div>
-              ) : (
-                <>
-                  {applicationError && (
-                    <div className="mb-5 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-                      {applicationError}
-                    </div>
-                  )}
-
-                  <div className="space-y-5">
-                    {/* Applicant Name */}
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-gray-900">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        value={applicationForm.applicantName}
-                        onChange={(e) =>
-                          setApplicationForm((prev) => ({
-                            ...prev,
-                            applicantName: e.target.value,
-                          }))
-                        }
-                        placeholder="Enter your full name"
-                        required
-                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                      />
-                    </div>
-
-                    {/* Email */}
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-gray-900">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        value={applicationForm.email}
-                        onChange={(e) =>
-                          setApplicationForm((prev) => ({
-                            ...prev,
-                            email: e.target.value,
-                          }))
-                        }
-                        placeholder="you@example.com"
-                        required
-                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                      />
-                    </div>
-
-                    {/* Phone */}
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-gray-900">
-                        Phone Number *
-                      </label>
-                      <input
-                        type="tel"
-                        value={applicationForm.phone}
-                        onChange={(e) =>
-                          setApplicationForm((prev) => ({
-                            ...prev,
-                            phone: e.target.value,
-                          }))
-                        }
-                        placeholder="Enter your phone number"
-                        required
-                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                      />
-                    </div>
-
-                    {/* Cover Letter */}
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-gray-900">
-                        Cover Letter
-                      </label>
-                      <textarea
-                        value={applicationForm.coverLetter}
-                        onChange={(e) =>
-                          setApplicationForm((prev) => ({
-                            ...prev,
-                            coverLetter: e.target.value,
-                          }))
-                        }
-                        placeholder="Tell us why you are interested in this position..."
-                        rows={6}
-                        className="w-full resize-y rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Buttons */}
-                  <div className="mt-7 flex flex-col-reverse gap-3 border-t border-gray-200 pt-5 sm:flex-row sm:justify-end">
-                    <button
-                      type="button"
-                      onClick={() => setShowApplicationForm(false)}
-                      className="rounded-lg border border-gray-300 px-5 py-3 font-semibold text-gray-700 hover:bg-gray-50"
-                    >
-                      Cancel
-                    </button>
-
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      className="rounded-lg bg-blue-800 px-6 py-3 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      {submitting ? "Submitting..." : "Submit Application"}
-                    </button>
-                  </div>
-                </>
-              )}
-            </form>
-          </div>
-        </div>
-      )}
     </main>
   );
 }

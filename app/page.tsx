@@ -223,12 +223,12 @@ export default function Home() {
                 operations and improve productivity.
               </p>
 
-              <Link
+              {/*<Link
                 href="/services"
                 className="mt-5 inline-flex items-center text-sm font-semibold text-[#5145CD] hover:text-[#4035B0]"
               >
                 Learn more <span className="ml-2">→</span>
-              </Link>
+              </Link>*/}
             </div>
 
             {/* Service 2 */}
@@ -246,12 +246,12 @@ export default function Home() {
                 businesses and organizations.
               </p>
 
-              <Link
+              {/* <Link
                 href="/services"
                 className="mt-5 inline-flex items-center text-sm font-semibold text-[#5145CD] hover:text-[#4035B0]"
               >
                 Learn more <span className="ml-2">→</span>
-              </Link>
+              </Link>*/}
             </div>
 
             {/* Service 3 */}
@@ -269,12 +269,12 @@ export default function Home() {
                 experiences.
               </p>
 
-              <Link
+              {/* <Link
                 href="/services"
                 className="mt-5 inline-flex items-center text-sm font-semibold text-[#5145CD] hover:text-[#4035B0]"
               >
                 Learn more <span className="ml-2">→</span>
-              </Link>
+              </Link>*/}
             </div>
 
             {/* Service 4 */}
@@ -292,12 +292,12 @@ export default function Home() {
                 experiences for your users.
               </p>
 
-              <Link
+              {/* <Link
                 href="/services"
                 className="mt-5 inline-flex items-center text-sm font-semibold text-[#5145CD] hover:text-[#4035B0]"
               >
                 Learn more <span className="ml-2">→</span>
-              </Link>
+              </Link>*/}
             </div>
           </div>
         </div>
