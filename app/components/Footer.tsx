@@ -50,12 +50,12 @@ export default function Footer() {
           <div className="flex flex-col gap-3 text-sm text-gray-300">
             <a
               href="mailto:dotnodepoint@gmail.com"
-              className="hover:text-white"
+              className="text-white"
             >
               dotnodepoint@gmail.com
             </a>
             <Link href="/contact" className="hover:text-white">
-              Contact Page
+              9819040632
             </Link>
             <p>Nepal</p>
           </div>

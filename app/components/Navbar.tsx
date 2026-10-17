@@ -1,10 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Get the current page path
+  const pathname = usePathname();
 
   const links = [
     { name: "Home", href: "/" },
@@ -27,22 +31,33 @@ export default function Navbar() {
         </div>
 
         {/* MIDDLE - NAVIGATION */}
-        <div className="hidden items-center justify-center gap-8 lg:flex">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="whitespace-nowrap text-sm font-medium text-white transition hover:text-blue-200"
-            >
-              {link.name}
-            </Link>
-          ))}
+        <div className="hidden items-center justify-center gap-3 lg:flex">
+          {links.map((link) => {
+            const isActive =
+              link.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(link.href);
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`whitespace-nowrap rounded-lg px-4 py-1 text-sm font-semibold transition ${
+                  isActive
+                    ? "bg-green-400 text-[#2208b4]"
+                    : "text-white hover:bg-white hover:text-[#2208b4]"
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
         </div>
 
         {/* RIGHT SIDE - GET STARTED */}
         <div className="hidden justify-end lg:flex">
           <Link
-            href="/login"
+            href="/contact"
             className="rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-[#2208b4] transition hover:bg-blue-100"
           >
             Get Started
@@ -67,22 +82,33 @@ export default function Navbar() {
       {menuOpen && (
         <div className="border-t border-white/20 px-6 pb-5 pt-4 lg:hidden">
           <div className="flex flex-col gap-4">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="text-white transition hover:text-blue-200"
-              >
-                {link.name}
-              </Link>
-            ))}
+            {links.map((link) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(link.href);
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`font-medium transition ${
+                    isActive
+                      ? "text-green-400"
+                      : "text-white hover:text-green-400"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
 
             {/* MOBILE GET STARTED */}
             <Link
-              href="/login"
+              href="/contact"
               onClick={() => setMenuOpen(false)}
-              className="mt-2 w-fit rounded-lg bg-white px-5 py-2.5 font-semibold text-[#2208b4]"
+              className="mt-2 w-fit rounded-lg bg-white px-5 py-2.5 font-semibold text-[#2208b4] transition hover:bg-blue-100"
             >
               Get Started
             </Link>
