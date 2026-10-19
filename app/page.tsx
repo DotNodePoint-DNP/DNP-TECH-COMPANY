@@ -49,62 +49,86 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[#17143A] text-white">
-        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#5145CD]/30 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-40 left-1/4 h-96 w-96 rounded-full bg-[#8175E8]/20 blur-3xl" />
+      <section
+        className="relative min-h-[calc(100vh-72px)] bg-cover bg-center bg-no-repeat text-white"
+        style={{
+          backgroundImage: "url('/images/hero-bg.jpg')",
+        }}
+      >
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-[#0b0828]/55" />
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-20 sm:px-8 sm:py-24 lg:grid-cols-2 lg:px-10 lg:py-32">
+        {/* Purple glow effects */}
+        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#5145CD]/25 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-40 left-1/4 h-96 w-96 rounded-full bg-[#8175E8]/15 blur-3xl" />
+
+        {/* Hero Content */}
+        <div className="relative z-10 mx-auto grid min-h-[calc(100vh-72px)] max-w-7xl items-center gap-14 px-5 py-12 sm:px-8 lg:grid-cols-2 lg:px-10">
+          {/* Left Side */}
           <div>
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#C6B8FF]/30 bg-[#5145CD]/20 px-4 py-2 text-sm font-medium text-[#C6B8FF]">
+            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#C6B8FF]/40 bg-[#17143A]/40 px-4 py-2 text-sm font-medium text-[#C6B8FF] backdrop-blur-sm">
               <span className="h-2 w-2 rounded-full bg-[#C6B8FF]" />
               Innovative Technology Solutions
             </div>
 
-            <h1 className="max-w-2xl text-4xl font-extrabold leading-tight tracking-tight text-green-400 sm:text-5xl lg:text-6xl">
-              Building Digital
+            <h1 className="max-w-2xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              <span className="text-green-400">Building Digital</span>
+
               <span className="mt-2 block text-green-300">
                 Solutions for Tomorrow
               </span>
             </h1>
 
-            <p className="mt-7 max-w-xl text-base leading-8 text-gray-300 sm:text-lg">
+            <p className="mt-7 max-w-xl text-base leading-8 text-gray-200 sm:text-lg">
               We create modern software, websites, mobile applications, and
               digital solutions that help businesses grow, improve efficiency,
               and succeed in the digital world.
             </p>
 
+            {/* Buttons */}
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/products"
                 className="inline-flex items-center justify-center rounded-xl bg-[#5145CD] px-7 py-4 font-semibold text-white shadow-lg shadow-[#5145CD]/20 transition hover:-translate-y-0.5 hover:bg-[#4035B0]"
               >
-                Explore Products <span className="ml-3">→</span>
+                Explore Products
+                <span className="ml-3">→</span>
               </Link>
 
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/5 px-7 py-4 font-semibold text-white transition hover:border-[#C6B8FF] hover:bg-white/10"
+                className="inline-flex items-center justify-center rounded-xl border border-white/30 bg-black/20 px-7 py-4 font-semibold text-white backdrop-blur-sm transition hover:border-[#C6B8FF] hover:bg-white/10"
               >
                 Contact Us
               </Link>
             </div>
 
-            <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-sm text-gray-300">
+            {/* Features */}
+            <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-sm text-gray-200">
               <span className="flex items-center gap-2">
-                <span className="text-[#C6B8FF]">✓</span> Modern Technology
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#5145CD] text-xs">
+                  ✓
+                </span>
+                Modern Technology
               </span>
+
               <span className="flex items-center gap-2">
-                <span className="text-[#C6B8FF]">✓</span> Reliable Solutions
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#5145CD] text-xs">
+                  ✓
+                </span>
+                Reliable Solutions
               </span>
             </div>
           </div>
 
-          {/* Hero Visual */}
+          {/* Right Side */}
           <div className="relative mx-auto w-full max-w-xl">
             <div className="absolute -inset-4 rounded-[2rem] bg-[#5145CD]/20 blur-2xl" />
 
-            <div className="relative rounded-3xl border border-white/15 bg-white/10 p-3 shadow-2xl backdrop-blur-sm sm:p-5">
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#100E2C]">
+            <div className="relative rounded-3xl border border-white/20 bg-[#17143A]/40 p-3 shadow-2xl backdrop-blur-md sm:p-5">
+              {/* Digital Workspace */}
+              <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#100E2C]/90">
+                {/* Window Header */}
                 <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
                   <div className="flex items-center gap-2">
                     <span className="h-3 w-3 rounded-full bg-rose-400" />
@@ -117,52 +141,65 @@ export default function Home() {
                   </span>
                 </div>
 
+                {/* Workspace Content */}
                 <div className="p-5 sm:p-7">
                   <div className="mb-7">
                     <p className="text-sm text-gray-400">
                       Welcome to your workspace
                     </p>
+
                     <h2 className="mt-2 text-2xl font-bold text-white">
                       Ideas into reality.
                     </h2>
+
                     <div className="mt-4 h-1.5 w-24 rounded-full bg-[#C6B8FF]" />
                   </div>
 
+                  {/* Cards */}
                   <div className="grid grid-cols-2 gap-4">
+                    {/* Smart Software */}
                     <div className="rounded-2xl border border-[#C6B8FF]/20 bg-[#5145CD]/20 p-4 sm:p-5">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#C6B8FF]/20 text-xl">
                         ◈
                       </div>
+
                       <p className="mt-4 text-sm text-gray-300">
                         Smart Software
                       </p>
+
                       <div className="mt-3 h-2 w-full rounded-full bg-white/10">
                         <div className="h-2 w-3/4 rounded-full bg-[#C6B8FF]" />
                       </div>
                     </div>
 
+                    {/* Creative Design */}
                     <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-xl">
                         ✳
                       </div>
+
                       <p className="mt-4 text-sm text-gray-300">
                         Creative Design
                       </p>
+
                       <div className="mt-3 h-2 w-full rounded-full bg-white/10">
                         <div className="h-2 w-2/3 rounded-full bg-[#8175E8]" />
                       </div>
                     </div>
 
+                    {/* Build Something */}
                     <div className="col-span-2 rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
                       <div className="flex items-center justify-between gap-3">
                         <div>
                           <p className="text-sm font-semibold text-white">
                             Build something meaningful
                           </p>
+
                           <p className="mt-1 text-xs text-gray-400">
                             Technology designed around your goals.
                           </p>
                         </div>
+
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#5145CD] text-xl">
                           ↗
                         </div>
@@ -170,8 +207,10 @@ export default function Home() {
                     </div>
                   </div>
 
+                  {/* Bottom Status */}
                   <div className="mt-5 flex items-center gap-3 rounded-xl bg-white/[0.04] px-4 py-3">
                     <div className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+
                     <p className="text-xs text-gray-300">
                       Innovation starts with a great idea.
                     </p>
@@ -180,6 +219,7 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Floating Badge */}
             <div className="absolute -right-2 top-12 hidden rounded-xl border border-white/10 bg-[#5145CD] px-4 py-3 text-sm font-semibold text-white shadow-xl sm:block sm:-right-5">
               ✦ Built for growth
             </div>

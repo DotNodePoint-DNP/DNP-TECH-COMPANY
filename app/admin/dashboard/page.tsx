@@ -300,8 +300,8 @@ export default function AdminDashboard() {
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-slate-900 text-white">
         <div className="flex h-16 items-center border-b border-slate-700 px-6">
-          <h1 className="text-xl font-bold">
-            IT<span className="text-blue-400">Company</span>
+          <h1 className="text-green-400 text-xl font-bold">
+            DotNode<span className="text-green-200"> Point</span>
           </h1>
         </div>
 

@@ -78,7 +78,7 @@ export default function CareersPage() {
       <section className="relative overflow-hidden bg-[#17143A]">
         <div className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-16 lg:py-24">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#C6B8FF]">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-700">
               Careers
             </p>
 
@@ -99,7 +99,7 @@ export default function CareersPage() {
         <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16">
           {/* SECTION HEADING */}
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#C6B8FF]">
+            <p className="text-sm font-semibold uppercase tracking-widest text-blue-700">
               Open Positions
             </p>
 
@@ -233,7 +233,7 @@ export default function CareersPage() {
       <section className="bg-[#17143A] py-20">
         <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#C6B8FF]">
+            <p className="text-sm font-semibold uppercase tracking-widest text-blue-700">
               Why Join Us
             </p>
 

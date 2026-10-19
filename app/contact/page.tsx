@@ -125,7 +125,7 @@ export default function ContactPage() {
 
                 <div>
                   <h3 className="font-semibold text-white">Email</h3>
-                  <p className="mt-1 text-gray-600">info@company.com</p>
+                  <p className="mt-1 text-gray-600">dotnodepoint@gmail.com</p>
                 </div>
               </div>
 
@@ -137,7 +137,7 @@ export default function ContactPage() {
 
                 <div>
                   <h3 className="font-semibold text-white">Phone</h3>
-                  <p className="mt-1 text-gray-600">+977-XXXXXXXXXX</p>
+                  <p className="mt-1 text-gray-600">+977-9819040632</p>
                 </div>
               </div>
 
@@ -238,7 +238,7 @@ export default function ContactPage() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      placeholder="you@example.com"
+                      placeholder="Enter your email"
                       className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                     />
                   </div>
@@ -260,7 +260,7 @@ export default function ContactPage() {
                       type="tel"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="+977-XXXXXXXXXX"
+                      placeholder="Enter your phone number"
                       className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                     />
                   </div>

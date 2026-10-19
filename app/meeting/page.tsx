@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function MeetingPage() {
   const [formData, setFormData] = useState({
@@ -80,99 +82,35 @@ export default function MeetingPage() {
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* NAVBAR */}
-      <nav className="sticky top-0 z-50 w-full border-b border-blue-700 bg-blue-800">
-        <div className="flex w-full items-center justify-between px-6 py-4 md:px-10 lg:px-16 xl:px-20">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-2xl font-bold tracking-tight text-white"
-          >
-            Company<span className="text-blue-300">.</span>
-          </Link>
-
-          {/* Navigation */}
-          <div className="hidden items-center gap-8 md:flex">
-            <Link
-              href="/"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/products"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Products
-            </Link>
-
-            <Link
-              href="/services"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Services
-            </Link>
-
-            <Link
-              href="/about"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              About
-            </Link>
-
-            <Link
-              href="/careers"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Careers
-            </Link>
-
-            <Link
-              href="/contact"
-              className="text-sm font-medium text-blue-100 transition hover:text-white"
-            >
-              Contact
-            </Link>
-          </div>
-
-          {/* Get Started */}
-          <Link
-            href="/contact"
-            className="rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-blue-800 transition hover:bg-blue-50"
-          >
-            Get Started
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* HERO */}
-      <section className="bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <section className="bg-[#17143A]">
         <div className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-16 lg:py-24">
           <div className="max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-widest text-blue-700">
               Book a Meeting
             </p>
 
-            <h1 className="mt-3 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+            <h1 className="mt-3 text-4xl font-bold tracking-tight text-green-400 md:text-5xl">
               Let&apos;s discuss your project
             </h1>
 
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Tell us about your project, requirements, or business idea.
-              Choose a convenient date and time, and send us a meeting
-              request.
+              Tell us about your project, requirements, or business idea. Choose
+              a convenient date and time, and send us a meeting request.
             </p>
           </div>
         </div>
       </section>
 
       {/* MEETING FORM */}
-      <section className="bg-white">
+      <section className="bg-[#0c0a29]">
         <div className="mx-auto max-w-7xl px-6 py-16 md:px-10 lg:px-16 lg:py-20">
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
             {/* LEFT INFORMATION */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900">
+              <h2 className="text-3xl font-bold text-green-400">
                 Schedule a conversation
               </h2>
 
@@ -418,99 +356,7 @@ export default function MeetingPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-gray-200 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-12 md:px-10 lg:px-16">
-          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-            {/* Company */}
-            <div>
-              <Link
-                href="/"
-                className="text-2xl font-bold tracking-tight text-gray-900"
-              >
-                Company<span className="text-blue-700">.</span>
-              </Link>
-
-              <p className="mt-4 max-w-sm leading-7 text-gray-600">
-                Building modern digital solutions for businesses and
-                organizations.
-              </p>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h3 className="font-semibold text-gray-900">Quick Links</h3>
-
-              <div className="mt-4 flex flex-col gap-3 text-sm text-gray-600">
-                <Link href="/" className="hover:text-blue-700">
-                  Home
-                </Link>
-
-                <Link href="/products" className="hover:text-blue-700">
-                  Products
-                </Link>
-
-                <Link href="/services" className="hover:text-blue-700">
-                  Services
-                </Link>
-
-                <Link href="/about" className="hover:text-blue-700">
-                  About
-                </Link>
-
-                <Link href="/careers" className="hover:text-blue-700">
-                  Careers
-                </Link>
-
-                <Link href="/contact" className="hover:text-blue-700">
-                  Contact
-                </Link>
-
-                <Link href="/meeting" className="hover:text-blue-700">
-                  Book a Meeting
-                </Link>
-              </div>
-            </div>
-
-            {/* Services */}
-            <div>
-              <h3 className="font-semibold text-gray-900">Services</h3>
-
-              <div className="mt-4 flex flex-col gap-3 text-sm text-gray-600">
-                <Link href="/services" className="hover:text-blue-700">
-                  Web Development
-                </Link>
-
-                <Link href="/services" className="hover:text-blue-700">
-                  Software Development
-                </Link>
-
-                <Link href="/services" className="hover:text-blue-700">
-                  App Development
-                </Link>
-
-                <Link href="/services" className="hover:text-blue-700">
-                  UI/UX Design
-                </Link>
-              </div>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <h3 className="font-semibold text-gray-900">Contact</h3>
-
-              <div className="mt-4 space-y-3 text-sm text-gray-600">
-                <p>📧 info@company.com</p>
-                <p>📞 +977-XXXXXXXXXX</p>
-                <p>📍 Nepal</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-10 border-t border-gray-200 pt-6 text-sm text-gray-500">
-            © {new Date().getFullYear()} Company. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
