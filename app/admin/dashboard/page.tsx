@@ -143,13 +143,13 @@ export default function DashboardPage() {
         return;
       }
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch statistics");
-      }
-
       const data = await response.json();
 
-      setStats(data);
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch statistics");
+      }
+
+      setStats(data.stats);
     } catch (error) {
       console.error("Error fetching statistics:", error);
     } finally {
@@ -510,260 +510,437 @@ export default function DashboardPage() {
           )}
         </div>
       </div>
-      // Recent meetings and applications
-      <div className="flex flex-col gap-6">
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-          <div className="flex items-center justify-between border-b border-gray-200 p-6">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900">
-                Recent Meetings
-              </h2>
+      <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-gray-200 p-6">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Recent Products
+            </h2>
 
-              <p className="text-sm text-gray-500">Latest meeting requests</p>
-            </div>
-
-            <a
-              href="/admin/meetings"
-              className="text-sm font-medium text-[#2208b4] hover:underline"
-            >
-              View All
-            </a>
+            <p className="text-sm text-gray-500">Recently added products</p>
           </div>
 
-          <div className="p-6">
-            {meetingsLoading ? (
-              <p className="text-center text-sm text-gray-500">
-                Loading meetings...
-              </p>
-            ) : meetings.length === 0 ? (
-              <p className="text-center text-sm text-gray-500">
-                No meetings found.
-              </p>
-            ) : (
-              <div className="space-y-4">
-                {meetings.slice(0, 5).map((meeting) => (
-                  <div
-                    key={meeting._id}
-                    className="flex items-start justify-between gap-4 border-b border-gray-100 pb-4 last:border-0 last:pb-0"
-                  >
-                    <div className="min-w-0">
-                      <h3 className="truncate text-sm font-semibold text-gray-900">
-                        {meeting.name}
-                      </h3>
-
-                      <p className="truncate text-sm text-gray-500">
-                        {meeting.subject}
-                      </p>
-
-                      <p className="mt-1 text-xs text-gray-400">
-                        {meeting.date} {meeting.time}
-                      </p>
-                    </div>
-
-                    <span
-                      className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${getStatusClass(
-                        meeting.status,
-                      )}`}
-                    >
-                      {meeting.status}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <a
+            href="/admin/products"
+            className="text-sm font-medium text-[#2208b4] hover:underline"
+          >
+            View All
+          </a>
         </div>
 
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-          <div className="flex items-center justify-between border-b border-gray-200 p-6">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900">
-                Recent Applications
-              </h2>
-
-              <p className="text-sm text-gray-500">Latest job applications</p>
+        <div className="overflow-x-auto">
+          {productsLoading ? (
+            <div className="p-6 text-center text-gray-500">
+              Loading products...
             </div>
+          ) : products.length === 0 ? (
+            <div className="p-6 text-center text-gray-500">
+              No products found.
+            </div>
+          ) : (
+            <table className="w-full min-w-[1000px]">
+              <thead>
+                <tr className="border-b border-gray-100 text-left">
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Name
+                  </th>
 
-            <a
-              href="/admin/applications"
-              className="text-sm font-medium text-[#2208b4] hover:underline"
-            >
-              View All
-            </a>
-          </div>
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Description
+                  </th>
 
-          <div className="p-6">
-            {applicationsLoading ? (
-              <p className="text-center text-sm text-gray-500">
-                Loading applications...
-              </p>
-            ) : applications.length === 0 ? (
-              <p className="text-center text-sm text-gray-500">
-                No applications found.
-              </p>
-            ) : (
-              <div className="space-y-4">
-                {applications.slice(0, 5).map((application) => (
-                  <div
-                    key={application._id}
-                    className="flex items-start justify-between gap-4 border-b border-gray-100 pb-4 last:border-0 last:pb-0"
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Category
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Technologies
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Product URL
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Status
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Date
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {products.slice(0, 5).map((product) => (
+                  <tr
+                    key={product._id}
+                    className="border-b border-gray-100 last:border-0"
                   >
-                    <div className="min-w-0">
-                      <h3 className="truncate text-sm font-semibold text-gray-900">
-                        {application.applicantName}
-                      </h3>
+                    <td className="px-6 py-4 text-sm text-gray-900">
+                      {product.name}
+                    </td>
 
-                      <p className="truncate text-sm text-gray-500">
-                        {application.career?.title || "Job Application"}
-                      </p>
+                    <td className="max-w-xs px-6 py-4 text-sm text-gray-500">
+                      <div className="truncate">{product.description}</div>
+                    </td>
 
-                      <p className="mt-1 text-xs text-gray-400">
-                        {formatDate(application.createdAt)}
-                      </p>
-                    </div>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {product.category}
+                    </td>
 
-                    <span
-                      className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${getStatusClass(
-                        application.status,
-                      )}`}
-                    >
-                      {application.status}
-                    </span>
-                  </div>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {product.technologies}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm">
+                      {product.productUrl ? (
+                        <a
+                          href={product.productUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#2208b4] hover:underline"
+                        >
+                          View
+                        </a>
+                      ) : (
+                        <span className="text-gray-400">-</span>
+                      )}
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-medium ${
+                          product.status
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {product.status ? "Active" : "Inactive"}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {formatDate(product.createdAt)}
+                    </td>
+                  </tr>
                 ))}
-              </div>
-            )}
-          </div>
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
-      // Recent products and partnerships
-      <div className="flex flex-col gap-6">
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-          <div className="flex items-center justify-between border-b border-gray-200 p-6">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900">
-                Recent Products
-              </h2>
+      <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-gray-200 p-6">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Recent Applications
+            </h2>
 
-              <p className="text-sm text-gray-500">Recently added products</p>
-            </div>
-
-            <a
-              href="/admin/products"
-              className="text-sm font-medium text-[#2208b4] hover:underline"
-            >
-              View All
-            </a>
+            <p className="text-sm text-gray-500">Latest job applications</p>
           </div>
 
-          <div className="p-6">
-            {productsLoading ? (
-              <p className="text-center text-sm text-gray-500">
-                Loading products...
-              </p>
-            ) : products.length === 0 ? (
-              <p className="text-center text-sm text-gray-500">
-                No products found.
-              </p>
-            ) : (
-              <div className="space-y-4">
-                {products.slice(0, 5).map((product) => (
-                  <div
-                    key={product._id}
-                    className="flex items-center justify-between gap-4 border-b border-gray-100 pb-4 last:border-0 last:pb-0"
-                  >
-                    <div className="min-w-0">
-                      <h3 className="truncate text-sm font-semibold text-gray-900">
-                        {product.name}
-                      </h3>
-
-                      <p className="truncate text-sm text-gray-500">
-                        {product.category}
-                      </p>
-
-                      <p className="mt-1 text-xs text-gray-400">
-                        {formatDate(product.createdAt)}
-                      </p>
-                    </div>
-
-                    <span
-                      className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${
-                        product.status
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
-                    >
-                      {product.status ? "Active" : "Inactive"}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <a
+            href="/admin/applications"
+            className="text-sm font-medium text-[#2208b4] hover:underline"
+          >
+            View All
+          </a>
         </div>
 
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-          <div className="flex items-center justify-between border-b border-gray-200 p-6">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900">
-                Recent Partnerships
-              </h2>
-
-              <p className="text-sm text-gray-500">
-                Latest partnership requests
-              </p>
+        <div className="overflow-x-auto">
+          {applicationsLoading ? (
+            <div className="p-6 text-center text-gray-500">
+              Loading applications...
             </div>
+          ) : applications.length === 0 ? (
+            <div className="p-6 text-center text-gray-500">
+              No applications found.
+            </div>
+          ) : (
+            <table className="w-full min-w-[900px]">
+              <thead>
+                <tr className="border-b border-gray-100 text-left">
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Applicant
+                  </th>
 
-            <a
-              href="/admin/partnership"
-              className="text-sm font-medium text-[#2208b4] hover:underline"
-            >
-              View All
-            </a>
-          </div>
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Email
+                  </th>
 
-          <div className="p-6">
-            {partnershipsLoading ? (
-              <p className="text-center text-sm text-gray-500">
-                Loading partnerships...
-              </p>
-            ) : partnerships.length === 0 ? (
-              <p className="text-center text-sm text-gray-500">
-                No partnerships found.
-              </p>
-            ) : (
-              <div className="space-y-4">
-                {partnerships.slice(0, 5).map((partnership) => (
-                  <div
-                    key={partnership._id}
-                    className="flex items-start justify-between gap-4 border-b border-gray-100 pb-4 last:border-0 last:pb-0"
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Phone
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Position
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Status
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Date
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {applications.slice(0, 5).map((application) => (
+                  <tr
+                    key={application._id}
+                    className="border-b border-gray-100 last:border-0"
                   >
-                    <div className="min-w-0">
-                      <h3 className="truncate text-sm font-semibold text-gray-900">
-                        {partnership.name}
-                      </h3>
+                    <td className="px-6 py-4 text-sm text-gray-900">
+                      {application.applicantName}
+                    </td>
 
-                      <p className="truncate text-sm text-gray-500">
-                        {partnership.partnershipType}
-                      </p>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {application.email}
+                    </td>
 
-                      <p className="mt-1 text-xs text-gray-400">
-                        {formatDate(partnership.createdAt)}
-                      </p>
-                    </div>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {application.phone}
+                    </td>
 
-                    <span
-                      className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${getStatusClass(
-                        partnership.status,
-                      )}`}
-                    >
-                      {partnership.status}
-                    </span>
-                  </div>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {application.career?.title || "Job Application"}
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-medium ${getStatusClass(
+                          application.status,
+                        )}`}
+                      >
+                        {application.status}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {formatDate(application.createdAt)}
+                    </td>
+                  </tr>
                 ))}
-              </div>
-            )}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+      <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-gray-200 p-6">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Recent Meetings
+            </h2>
+
+            <p className="text-sm text-gray-500">Latest meeting requests</p>
           </div>
+
+          <a
+            href="/admin/meetings"
+            className="text-sm font-medium text-[#2208b4] hover:underline"
+          >
+            View All
+          </a>
+        </div>
+
+        <div className="overflow-x-auto">
+          {meetingsLoading ? (
+            <div className="p-6 text-center text-gray-500">
+              Loading meetings...
+            </div>
+          ) : meetings.length === 0 ? (
+            <div className="p-6 text-center text-gray-500">
+              No meetings found.
+            </div>
+          ) : (
+            <table className="w-full min-w-[1000px]">
+              <thead>
+                <tr className="border-b border-gray-100 text-left">
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Name
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Email
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Company
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Subject
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Date
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Time
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {meetings.slice(0, 5).map((meeting) => (
+                  <tr
+                    key={meeting._id}
+                    className="border-b border-gray-100 last:border-0"
+                  >
+                    <td className="px-6 py-4 text-sm text-gray-900">
+                      {meeting.name}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {meeting.email}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {meeting.company || "-"}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {meeting.subject}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {meeting.date}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {meeting.time}
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-medium ${getStatusClass(
+                          meeting.status,
+                        )}`}
+                      >
+                        {meeting.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+      <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-gray-200 p-6">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Recent Partnerships
+            </h2>
+
+            <p className="text-sm text-gray-500">Latest partnership requests</p>
+          </div>
+
+          <a
+            href="/admin/partnership"
+            className="text-sm font-medium text-[#2208b4] hover:underline"
+          >
+            View All
+          </a>
+        </div>
+
+        <div className="overflow-x-auto">
+          {partnershipsLoading ? (
+            <div className="p-6 text-center text-gray-500">
+              Loading partnerships...
+            </div>
+          ) : partnerships.length === 0 ? (
+            <div className="p-6 text-center text-gray-500">
+              No partnerships found.
+            </div>
+          ) : (
+            <table className="w-full min-w-[1000px]">
+              <thead>
+                <tr className="border-b border-gray-100 text-left">
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Name
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Email
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Company
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Partnership Type
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Subject
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Status
+                  </th>
+
+                  <th className="px-6 py-4 text-sm font-semibold text-gray-600">
+                    Date
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {partnerships.slice(0, 5).map((partnership) => (
+                  <tr
+                    key={partnership._id}
+                    className="border-b border-gray-100 last:border-0"
+                  >
+                    <td className="px-6 py-4 text-sm text-gray-900">
+                      {partnership.name}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {partnership.email}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {partnership.company || "-"}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {partnership.partnershipType}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {partnership.subject}
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-medium ${getStatusClass(
+                          partnership.status,
+                        )}`}
+                      >
+                        {partnership.status}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {formatDate(partnership.createdAt)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
       // Quick actions
