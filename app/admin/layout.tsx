@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
+import BrandLogo from "../components/BrandLogo";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -78,11 +79,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       {/* SIDEBAR */}
       <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-slate-900 text-white">
         {/* LOGO */}
-        <div className="flex h-16 items-center border-b border-slate-700 px-6">
-          <h1 className="text-xl font-bold text-green-400">
-            DotNode
-            <span className="text-green-200"> Point</span>
-          </h1>
+        <div className="flex h-16 items-center border-b border-slate-700 px-4">
+          <BrandLogo size="small" />
         </div>
 
         {/* MAIN MENU */}
@@ -134,7 +132,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <div>
             <h2 className="text-lg font-semibold text-gray-800">{pageTitle}</h2>
 
-            <p className="text-xs text-gray-500">Manage your company system</p>
+            <p className="text-xs text-gray-500">
+              Manage your company system
+            </p>
           </div>
 
           {/* ADMIN */}

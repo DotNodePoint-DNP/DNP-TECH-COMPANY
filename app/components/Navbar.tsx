@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import BrandLogo from "./BrandLogo";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,15 +23,10 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full bg-[#2208b4] text-white shadow-md">
       <div className="grid w-full grid-cols-[1fr_auto_1fr] items-center px-6 py-4 md:px-10 lg:px-16 xl:px-20">
-        {/* LEFT SIDE - DOTNODE POINT */}
-        <div className="flex justify-start">
-          <Link href="/" className="text-2xl font-bold tracking-wide">
-            <span className="text-green-400">DotNode</span>{" "}
-            <span className="text-green-200">Point</span>
-          </Link>
+        <div className="flex items-center">
+          <BrandLogo size="medium" />
         </div>
 
-        {/* MIDDLE - NAVIGATION */}
         <div className="hidden items-center justify-center gap-3 lg:flex">
           {links.map((link) => {
             const isActive =
@@ -54,7 +50,6 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* RIGHT SIDE - GET STARTED */}
         <div className="hidden justify-end lg:flex">
           <Link
             href="/contact"
@@ -64,7 +59,6 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* MOBILE MENU BUTTON */}
         <div className="col-start-3 flex justify-end lg:hidden">
           <button
             type="button"
@@ -78,7 +72,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE MENU */}
       {menuOpen && (
         <div className="border-t border-white/20 px-6 pb-5 pt-4 lg:hidden">
           <div className="flex flex-col gap-4">
@@ -104,7 +97,6 @@ export default function Navbar() {
               );
             })}
 
-            {/* MOBILE GET STARTED */}
             <Link
               href="/contact"
               onClick={() => setMenuOpen(false)}
