@@ -414,14 +414,6 @@ export default function AdminsPage() {
             </div>
           )}
         </div>
-
-        {/* Back Button */}
-        <button
-          onClick={() => router.push("/admin/dashboard")}
-          className="mt-6 rounded-lg border border-gray-300 bg-white px-5 py-3 text-gray-700 hover:bg-gray-50"
-        >
-          ← Back to Dashboard
-        </button>
       </div>
 
       {/* Add/Edit Modal */}
