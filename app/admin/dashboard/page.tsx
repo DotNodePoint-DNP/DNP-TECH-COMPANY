@@ -346,15 +346,13 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      // Page heading
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-green-400">Dashboard</h1>
 
         <p className="mt-1 text-sm text-gray-500">
           Welcome to the DotNode Point administration panel.
         </p>
       </div>
-      // Statistics
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <p className="text-sm font-medium text-gray-500">Total Admins</p>
@@ -422,7 +420,7 @@ export default function DashboardPage() {
           <p className="mt-1 text-sm text-gray-500">Job applications</p>
         </div>
       </div>
-      // Recent admins
+  
       <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
         <div className="flex items-center justify-between border-b border-gray-200 p-6">
           <div>
@@ -943,7 +941,6 @@ export default function DashboardPage() {
           )}
         </div>
       </div>
-      // Quick actions
       <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-gray-900">Quick Actions</h2>
 

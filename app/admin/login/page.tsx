@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#17143A] px-4 py-8">
+    <main className="min-h-screen bg-[#06022c] px-4 py-8">
       {/* Back to Website */}
       <div className="mx-auto max-w-6xl">
         <Link
@@ -68,8 +68,8 @@ export default function AdminLoginPage() {
           <div className="mb-8 text-center">
             <Link href="/" className="inline-block">
               <h1 className="text-3xl font-bold tracking-tight">
-                <span className="text-[#5145CD]">DotNode</span>{" "}
-                <span className="text-white">Point</span>
+                <span className="text-green-400">DotNode</span>{" "}
+                <span className="text-green-200">Point</span>
               </h1>
             </Link>
 

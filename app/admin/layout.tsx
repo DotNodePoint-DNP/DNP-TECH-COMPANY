@@ -75,7 +75,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     menuItems.find((item) => pathname.startsWith(item.href))?.name || "Admin";
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-[#06022c]">
       {/* SIDEBAR */}
       <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-slate-900 text-white">
         {/* LOGO */}
@@ -128,11 +128,11 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       {/* RIGHT SIDE */}
       <main className="ml-64 min-h-screen">
         {/* HEADER */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-white px-8">
+        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-[#2208b4] px-8">
           <div>
-            <h2 className="text-lg font-semibold text-gray-800">{pageTitle}</h2>
+            <h2 className="text-lg font-semibold text-white">{pageTitle}</h2>
 
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-slate-400">
               Manage your company system
             </p>
           </div>
@@ -144,9 +144,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-gray-800">Admin</p>
+              <p className="text-sm font-semibold text-white">Admin</p>
 
-              <p className="text-xs text-gray-500">Administrator</p>
+              <p className="text-xs text-slate-400">Administrator</p>
             </div>
           </div>
         </header>
