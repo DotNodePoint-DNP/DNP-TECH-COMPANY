@@ -132,9 +132,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <div>
             <h2 className="text-lg font-semibold text-white">{pageTitle}</h2>
 
-            <p className="text-xs text-slate-400">
-              Manage your company system
-            </p>
+            <p className="text-xs text-slate-400">Manage your company system</p>
           </div>
 
           {/* ADMIN */}
