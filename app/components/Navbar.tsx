@@ -7,8 +7,6 @@ import BrandLogo from "./BrandLogo";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  // Get the current page path
   const pathname = usePathname();
 
   const links = [
@@ -27,7 +25,7 @@ export default function Navbar() {
           <BrandLogo size="medium" />
         </div>
 
-        <div className="hidden items-center justify-center gap-3 lg:flex">
+        <div className="hidden items-center justify-center gap-6 lg:flex">
           {links.map((link) => {
             const isActive =
               link.href === "/"
@@ -38,13 +36,19 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`whitespace-nowrap rounded-lg px-4 py-1 text-sm font-semibold transition ${
+                className={`relative whitespace-nowrap py-2 text-sm font-semibold transition-colors duration-200 ${
                   isActive
-                    ? "bg-green-400 text-[#2208b4]"
-                    : "text-white hover:bg-white hover:text-[#2208b4]"
+                    ? "text-green-400"
+                    : "text-white hover:text-green-400"
                 }`}
               >
                 {link.name}
+
+                <span
+                  className={`absolute bottom-0 left-0 h-[2px] bg-green-400 transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0"
+                  }`}
+                />
               </Link>
             );
           })}
@@ -86,13 +90,17 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`font-medium transition ${
+                  className={`relative w-fit pb-1 font-medium transition ${
                     isActive
                       ? "text-green-400"
                       : "text-white hover:text-green-400"
                   }`}
                 >
                   {link.name}
+
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 h-[2px] w-full bg-green-400" />
+                  )}
                 </Link>
               );
             })}
@@ -100,7 +108,7 @@ export default function Navbar() {
             <Link
               href="/contact"
               onClick={() => setMenuOpen(false)}
-              className="mt-2 w-fit rounded-lg bg-white px-5 py-2.5 font-semibold text-[#2208b4] transition hover:bg-blue-100"
+              className="mt-2 w-fit rounded-lg bg-green-400 px-5 py-2.5 font-semibold text-[#2208b4] transition hover:bg-blue-100"
             >
               Get Started
             </Link>
