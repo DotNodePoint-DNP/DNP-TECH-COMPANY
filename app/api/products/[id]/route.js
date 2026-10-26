@@ -3,11 +3,9 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
 import connectDB from "../../../config/db";
-import Product from "../../config/models/Product";
+import Product from "../../../config/models/Product";
 
-// ============================
 // GET SINGLE PRODUCT
-// ============================
 export async function GET(request, { params }) {
   try {
     await connectDB();
@@ -70,9 +68,7 @@ export async function GET(request, { params }) {
   }
 }
 
-// ============================
 // UPDATE PRODUCT
-// ============================
 export async function PUT(request, { params }) {
   try {
     await connectDB();
@@ -165,9 +161,7 @@ export async function PUT(request, { params }) {
   }
 }
 
-// ============================
 // DELETE PRODUCT
-// ============================
 export async function DELETE(request, { params }) {
   try {
     await connectDB();
